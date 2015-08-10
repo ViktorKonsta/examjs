@@ -54,5 +54,5 @@ exam(myParagraphNode)
 **Notes**
 - Entirely case insensitive for all arguments and results
 - `exam()` Can take string or node element. If it's node element then will examine all content within that element (include all child nodes content). *Will examine whole document if no arguments were given.* 
-- `.for()` Can take both: string and array. But can have one argument only.
+- `.for()` Can take string or array. Limited with one argument only.
 - within `.yep()` and `.nope()` callbacks you can access `this.filters`, `this.detected` and `this.undetected` variables that contain all filters given in `.for()`, detected words in text and undetected words in text.
