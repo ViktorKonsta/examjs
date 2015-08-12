@@ -30,6 +30,7 @@ exam('Lorem ipsum dolor sit amet.')
 ```
 exam()
 	.find(['lorem', 'dolor', 'sit', 'Viktor', 'copyright', 'amet', 'Github', 'Exam', '.js'])
+	.yep(function() {
 		console.log('All filters');
 		console.log(this.filters);
 		console.log('Detected:');
