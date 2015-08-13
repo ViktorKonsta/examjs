@@ -8,7 +8,7 @@
 - Entirely case insensitive for all arguments and results
 - `exam()` Can take string or node element. Will examine all content within that element if it's node element.
 - `.find()` Takes the array as argument. Can be reusable.
-- within `.yep()` and `.nope()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
+- within `.yep()`, `.nope()` and `.any()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
 
 **Simple use**
 ```javascript
@@ -44,7 +44,7 @@ exam(formValueNode)
 		// send ajax without special args
 	})
 	.find(anotherBadWordsArray)
-	.nope(function() {
+	.any(function() {
 		// do something if no another bad words were detected
 	})
 ```
