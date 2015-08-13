@@ -4,9 +4,6 @@ class Exam
 	constructor: (examObject = document.body) ->
 		if typeof examObject is 'string' then @examObject = @setLowerCase examObject
 		else @examObject = @setLowerCase examObject.textContent
-		@detected = []
-		@undetected = []
-		@filters = []
 
 	undetect: ->
 		b = @detected.join ''
@@ -19,6 +16,8 @@ class Exam
 		else item = item.toLowerCase() for item in data
 
 	find: (filters = []) ->
+		@detected = []
+		@undetected = []
 		@filters = @setLowerCase(filters)
 		if typeof @filters is 'string'
 			if @examObject.match @filters then @detected.push @filters

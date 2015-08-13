@@ -10,9 +10,6 @@ Exam = (function() {
     } else {
       this.examObject = this.setLowerCase(examObject.textContent);
     }
-    this.detected = [];
-    this.undetected = [];
-    this.filters = [];
   }
 
   Exam.prototype.undetect = function() {
@@ -46,6 +43,8 @@ Exam = (function() {
     if (filters == null) {
       filters = [];
     }
+    this.detected = [];
+    this.undetected = [];
     this.filters = this.setLowerCase(filters);
     if (typeof this.filters === 'string') {
       if (this.examObject.match(this.filters)) {

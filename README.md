@@ -1,59 +1,54 @@
 # Exam.js
-### It's very lightweight way (1 kb) to examine your content and make right decisions  
+#### It's very lightweight way (1 kb) to examine your content and make right decisions  
 
-Compatibility *IE9+, Edge, Chrome, Opera, Firefox, Safari*
+###### Compatibility  
+*IE9+, Edge, Chrome, Opera, Firefox, Safari*
 
-**Simple use:**
-
-*Will show `['lorem']` as found in this text*
-```
-exam('LOREM ipsum dolor sit amet, consectetur adipisicing elit. Nobis, nulla?')
-	.find('lorEm')
-	.yep(function() {
-		console.log(this.detected)
-	});
-```
-
-*Will log "It's realy clean and nice text" because no bad words were found there*
-```
-exam('Lorem ipsum dolor sit amet.')
-	.find(['bad-word1', 'bad-word2', 'bad-word3'])
-	.yep(function() {
-		console.log(this.detected)
-	})
-	.nope(function() {
-		console.log("It's realy clean and nice text")
-	});
-```
-
-*API avaliable within custom callbacks*
-```
-exam()
-	.find(['lorem', 'dolor', 'sit', 'Viktor', 'copyright', 'amet', 'Github', 'Exam', '.js'])
-	.yep(function() {
-		console.log('All filters');
-		console.log(this.filters);
-		console.log('Detected:');
-		console.log(this.detected);
-		console.log('Undetected:');
-		console.log(this.undetected);
-	});
-```
-
-**Using with jQuery Ajax**
-```
-exam(myParagraphNode)
-	.for(badWordsArray)
-	.yep(function() {
-		// ajax post with special flags
-	})
-	.nope(function() {
-		// ajax post without special flags
-	});
-```
-
-**Notes**
+###### Notes  
 - Entirely case insensitive for all arguments and results
-- `exam()` Can take string or node element. If it's node element then will examine all content within that element (include all child nodes content). *Will examine whole document if no arguments were given.* 
-- `.for()` Can take string or array. Limited with one argument only.
-- within `.yep()` and `.nope()` callbacks you can access `this.filters`, `this.detected` and `this.undetected` variables that contain all filters given in `.for()`, detected words in text and undetected words in text.
+- `exam()` Can take string or node element. Will examine all content within that element if it's node element. *Will examine whole document if no arguments were given.*
+- `.find()` Can take string or array. Reusable. Limited with one argument only.
+- within `.yep()` and `.nope()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
+
+###### Examples
+
+*1. Simple use*
+```javascript
+exam() // examine document.body by default
+	.find(['badword1', 'badword2', 'badword3']) 
+	.yep(function() {
+		alert('Bad words here in the text!');
+	});
+```
+
+*2. Reuse `.find()` method*  
+**Will examine by different filters twice and independently**
+```javascript
+exam()
+	.find(['badword1', 'badword2', 'badword3']) 
+	.yep(function() {
+		alert('Bad words here in the text!');
+	})
+	.find('copyright')
+	.yep(function() {
+		alert(this.detected + 'detected');
+	});
+```
+
+*3. jQuery Ajax*
+```javascript
+exam(formValueNode)
+	.find(badWordsArray)
+	.yep(function() {
+		// send ajax with special args
+	})
+	.nope(function() {
+		// send ajax without special args
+	})
+	.find(anotherBadWordsArray)
+	.nope(function() {
+		// do something if no another bad words were detected
+	})
+```
+
+Enjoy!
