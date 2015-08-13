@@ -1,18 +1,18 @@
 # Exam.js
 #### It's very lightweight way (1 kb) to examine your content and make right decisions  
 
-###### Compatibility  
+###### Compatibility ######
 *IE9+, Edge, Chrome, Opera, Firefox, Safari*
 
-###### Notes  
+###### Notes ######
 - Entirely case insensitive for all arguments and results
 - `exam()` Can take string or node element. Will examine all content within that element if it's node element. *Will examine whole document if no arguments were given.*
 - `.find()` Can take string or array. Reusable. Limited with one argument only.
 - within `.yep()` and `.nope()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
 
-###### Examples
+###### Examples ######
 
-*1. Simple use*
+**1. Simple use**
 ```javascript
 exam() // examine document.body by default
 	.find(['badword1', 'badword2', 'badword3']) 
@@ -21,8 +21,8 @@ exam() // examine document.body by default
 	});
 ```
 
-*2. Reuse `.find()` method*  
-**Will examine by different filters twice and independently**
+**2. Reuse `.find()` method**  
+*Will examine by different filters twice and independently*
 ```javascript
 exam()
 	.find(['badword1', 'badword2', 'badword3']) 
@@ -35,7 +35,7 @@ exam()
 	});
 ```
 
-*3. jQuery Ajax*
+**3. jQuery Ajax**
 ```javascript
 exam(formValueNode)
 	.find(badWordsArray)
