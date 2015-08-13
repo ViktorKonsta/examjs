@@ -1,5 +1,5 @@
 # Exam.js
-#### It's very lightweight way (1 kb) to examine your content and make right decisions  
+#### It's very lightweight way (800b) to examine your content and make right decisions  
 
 **Compatibility**  
 *IE9+, Edge, Chrome, Opera, Firefox, Safari*
