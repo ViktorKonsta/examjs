@@ -2,62 +2,43 @@ var Exam, exam;
 
 Exam = (function() {
   function Exam(examObject) {
-    if (examObject == null) {
-      examObject = document.body;
-    }
     if (typeof examObject === 'string') {
-      this.examObject = this.setLowerCase(examObject);
+      this.examObject = examObject.toLowerCase();
     } else {
-      this.examObject = this.setLowerCase(examObject.textContent);
+      this.examObject = examObject.textContent.toLowerCase();
     }
-    this.detected = [];
-    this.undetected = [];
-    this.filters = [];
   }
 
   Exam.prototype.undetect = function() {
-    var b, filter, i, len, ref;
-    b = this.detected.join('');
+    var detectedString, filter, i, len, ref;
+    detectedString = this.detected.join('');
     ref = this.filters;
     for (i = 0, len = ref.length; i < len; i++) {
       filter = ref[i];
-      if (!b.match(filter)) {
+      if (!detectedString.match(filter)) {
         this.undetected.push(filter);
       }
     }
   };
 
-  Exam.prototype.setLowerCase = function(data) {
-    var i, item, len, results;
-    if (typeof data === 'string') {
-      return data = data.toLowerCase();
-    } else {
+  Exam.prototype.find = function(filters) {
+    var filter, i, item, len, ref;
+    this.detected = [];
+    this.undetected = [];
+    this.filters = (function() {
+      var i, len, results;
       results = [];
-      for (i = 0, len = data.length; i < len; i++) {
-        item = data[i];
-        results.push(item = item.toLowerCase());
+      for (i = 0, len = filters.length; i < len; i++) {
+        filter = filters[i];
+        results.push(filter.toLowerCase());
       }
       return results;
-    }
-  };
-
-  Exam.prototype.find = function(filters) {
-    var i, item, len, ref;
-    if (filters == null) {
-      filters = [];
-    }
-    this.filters = this.setLowerCase(filters);
-    if (typeof this.filters === 'string') {
-      if (this.examObject.match(this.filters)) {
-        this.detected.push(this.filters);
-      }
-    } else {
-      ref = this.filters;
-      for (i = 0, len = ref.length; i < len; i++) {
-        item = ref[i];
-        if (this.examObject.match(item)) {
-          this.detected.push(item);
-        }
+    })();
+    ref = this.filters;
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      if (this.examObject.match(item)) {
+        this.detected.push(item);
       }
     }
     this.undetect();
@@ -65,16 +46,21 @@ Exam = (function() {
   };
 
   Exam.prototype.yep = function(callback) {
-    if (this.detected.length > 0 && (callback != null)) {
+    if (this.detected.length > 0) {
       callback.bind(this)();
     }
     return this;
   };
 
   Exam.prototype.nope = function(callback) {
-    if (this.detected.length === 0 && (callback != null)) {
+    if (this.undetected.length > 0) {
       callback.bind(this)();
     }
+    return this;
+  };
+
+  Exam.prototype.any = function(callback) {
+    callback.bind(this)();
     return this;
   };
 
@@ -82,6 +68,6 @@ Exam = (function() {
 
 })();
 
-exam = function(examObj) {
-  return new Exam(examObj);
+exam = function(e) {
+  return new Exam(e);
 };

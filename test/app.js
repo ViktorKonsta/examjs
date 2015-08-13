@@ -1,6 +1,6 @@
 
-exam('Lorem ipsum dolor sit amet.')
-	.find(['lorem', 'sit'])
+exam(document.body)
+	.find(['dolor', 'sit', 'github', 'viktor', 'China'])
 	.yep(function() {
 		console.log('All filters');
 		console.log(this.filters);
@@ -8,13 +8,17 @@ exam('Lorem ipsum dolor sit amet.')
 		console.log(this.detected);
 		console.log('Undetected:');
 		console.log(this.undetected);
-	})
-	.find(['dolor', 'viktor'])
-	.yep(function() {
+	});
+
+console.log('');
+
+exam('Забытое поле пустыни. А ещё я люблю шоколад.')
+	.find(['lorem', 'поле', 'берёзка', 'забытоЕ'])
+	.any(function() {
 		console.log('All filters');
 		console.log(this.filters);
 		console.log('Detected:');
 		console.log(this.detected);
 		console.log('Undetected:');
 		console.log(this.undetected);
-	})
+	});
