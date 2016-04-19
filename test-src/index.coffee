@@ -1,9 +1,10 @@
 
-chai = require 'chai'
+chai = require "chai"
 { assert } = chai
 
-describe "nanana", ->
+exam = require "../dist/module"
 
-	it "nanana", ->
+describe "Exam.js", ->
 
-		assert.equal 1, 1
+	it "Exam should be a function", ->
+		assert.isFunction exam

@@ -2,7 +2,7 @@
   "name": "examjs",
   "version": "1.0.0",
   "description": "Examin your blog content for bad words ",
-  "main": "index.js",
+  "main": "dist/module/index.js",
   "scripts": {
     "test": "mocha ./test"
   },

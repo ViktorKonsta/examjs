@@ -1,11 +1,13 @@
-var assert, chai;
+var assert, chai, exam;
 
-chai = require('chai');
+chai = require("chai");
 
 assert = chai.assert;
 
-describe("nanana", function() {
-  return it("nanana", function() {
-    return assert.equal(1, 1);
+exam = require("../dist/module");
+
+describe("Exam.js", function() {
+  return it("Exam should be a function", function() {
+    return assert.isFunction(exam);
   });
 });
