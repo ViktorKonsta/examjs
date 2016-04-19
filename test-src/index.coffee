@@ -41,3 +41,10 @@ describe "Exam.js", ->
 			.find ["lol"]
 			.nope ->
 				assert.deepEqual @unfound[0], "lol"
+
+	it "Should Exam 'Yo, what's up' try to find 'yo' and this.filter should be equal to 'yo'", ->
+
+		exam "Yo, what's up"
+			.find ["yo"]
+			.any ->
+				assert.deepEqual @filters[0], "yo"

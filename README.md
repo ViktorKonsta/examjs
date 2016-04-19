@@ -1,54 +1,55 @@
 # Exam.js
-#### It's very lightweight way (800b) to examine your content and make right decisions  
 
-**Compatibility**  
-*IE9+, Edge, Chrome, Opera, Firefox, Safari*
+### You can use this library for examing something for something :)
 
-**Notes**  
+### Compatibility
+
+- IE9+, Edge, Chrome, Opera, Firefox, Safari
+- Node.js
+
+### Notes
+
 - Entirely case insensitive for all arguments and results
-- `exam()` Can take string or node element. Will examine all content within that element if it's node element.
+- `exam()` Can take string or node element (object). Will examine all content within that element if it's node element.
 - `.find()` Takes the array as argument. Can be reusable.
-- within `.yep()`, `.nope()` and `.any()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
+- within `.yep()`, `.nope()` and `.any()` callbacks you can access (return arrays only)
+	- `this.filters` return filters you set
+	- `this.found` return found words
+	- `this.unfound` return unfound words
 
-**Simple use**
+### Simple use
 
 ```js
 exam(document.body)
 	.find(['badword1', 'badword2', 'badword3']) 
 	.yep( => {
-		alert('Bad words here in the text!')
+		// Should use 'yep' only if something out there
+	})
+	.nope( => {
+		// Should use 'nope' if nothing out there
+	})
+	.any( => {
+		// Should use 'any' if you want just get 'found', 'unfound' and 'filters'
 	})
 ```
 
-**Reuse `.find()` method**
-*Will examine by different filters twice and independently*
+### Reuse `.find()` method
+
+**NB!** Will examine by different filters twice and independently  
 
 ```js
 exam(document.body)
 	.find(['badword1', 'badword2', 'badword3']) 
-	.yep(function() {
-		alert('Bad words here in the text!');
+	.any( => {
+		// we can reuse filters we set
+		console.log(this.filters)
+		// and be ready that these badwords we will find
+		console.log(this.found)
 	})
-	.find('copyright')
-	.yep(function() {
-		alert(this.detected + 'detected');
-	});
-```
-
-**jQuery Ajax**
-
-```js
-exam(formValueNode)
-	.find(badWordsArray)
-	.yep(function() {
-		// send ajax with special args
-	})
-	.nope(function() {
-		// send ajax without special args
-	})
-	.find(anotherBadWordsArray)
-	.any(function() {
-		// do something if no another bad words were detected
+	.find(['copyright'])
+	.yep( => {
+		// copyright is out there
+		console.log(this.found)
 	})
 ```
 

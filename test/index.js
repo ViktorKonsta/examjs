@@ -26,11 +26,16 @@ describe("Exam.js", function() {
       return assert.deepEqual(this.unfound[0], "lol");
     });
   });
-  return it("Should Exam 'My name is Viktor, I am 21.' and find different words, so make first - find 'name' and second - not find 'lol'", function() {
+  it("Should Exam 'My name is Viktor, I am 21.' and find different words, so make first - find 'name' and second - not find 'lol'", function() {
     return exam("My name is Viktor, I am 21.").find(["name"]).yep(function() {
       return assert.deepEqual(this.found[0], "name");
     }).find(["lol"]).nope(function() {
       return assert.deepEqual(this.unfound[0], "lol");
+    });
+  });
+  return it("Should Exam 'Yo, what's up' try to find 'yo' and this.filter should be equal to 'yo'", function() {
+    return exam("Yo, what's up").find(["yo"]).any(function() {
+      return assert.deepEqual(this.filters[0], "yo");
     });
   });
 });
