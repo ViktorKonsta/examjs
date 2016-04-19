@@ -10,10 +10,24 @@ describe "Exam.js", ->
 
 		assert.isFunction exam
 
-	it "Should Exam 'hello world' and find hello", ->
+	it "Should Exam 'hello world' and find 'hello'", ->
 
 		exam "hello world"
 			.find ["hello"]
 			.yep ->
-				console.log @found
-				console.log @unfound
+				assert.deepEqual @found[0], "hello"
+
+	it "Should Exam 'visit my site' and not find 'shit'", ->
+
+		exam "visit my site"
+			.find ["shit"]
+			.nope ->
+				assert.deepEqual @unfound[0], "shit"
+
+	it "Should Exam 'My life is here' and find 'life' and not find 'lol'", ->
+
+		exam "My life is here"
+			.find ["life", "lol"]
+			.any ->
+				assert.deepEqual @found[0], "life"
+				assert.deepEqual @unfound[0], "lol"
