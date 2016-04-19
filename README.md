@@ -11,17 +11,19 @@
 - within `.yep()`, `.nope()` and `.any()` callbacks you can access `this.filters` (all filters were given), `this.detected` (detected filters in the content) and `this.undetected` (undetected filters in the content).
 
 **Simple use**
-```javascript
+
+```js
 exam(document.body)
 	.find(['badword1', 'badword2', 'badword3']) 
-	.yep(function() {
-		alert('Bad words here in the text!');
-	});
+	.yep( => {
+		alert('Bad words here in the text!')
+	})
 ```
 
-**Reuse `.find()` method**  
+**Reuse `.find()` method**
 *Will examine by different filters twice and independently*
-```javascript
+
+```js
 exam(document.body)
 	.find(['badword1', 'badword2', 'badword3']) 
 	.yep(function() {
@@ -34,7 +36,8 @@ exam(document.body)
 ```
 
 **jQuery Ajax**
-```javascript
+
+```js
 exam(formValueNode)
 	.find(badWordsArray)
 	.yep(function() {

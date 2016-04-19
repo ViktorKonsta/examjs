@@ -31,3 +31,13 @@ describe "Exam.js", ->
 			.any ->
 				assert.deepEqual @found[0], "life"
 				assert.deepEqual @unfound[0], "lol"
+
+	it "Should Exam 'My name is Viktor, I am 21.' and find different words, so make first - find 'name' and second - not find 'lol'", ->
+
+		exam "My name is Viktor, I am 21."
+			.find ["name"]
+			.yep ->
+				assert.deepEqual @found[0], "name"
+			.find ["lol"]
+			.nope ->
+				assert.deepEqual @unfound[0], "lol"
