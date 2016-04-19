@@ -1,30 +1,28 @@
-gulp = require 'gulp'
-uglify = require 'gulp-uglify'
-coffee = require 'gulp-coffee'
-rename = require 'gulp-rename'
-plumber = require 'gulp-plumber'
-watch = require 'gulp-watch'
-size = require 'gulp-size'
-browserSync = require('browser-sync').create()
+$ = do require "auto-require"
 
-gulp.task 'server', ->
-	browserSync.init server: baseDir: './test'
+$.gulp.task "build:browser", ->
+	$.gulp.src "src/index.coffee"
+		.pipe do $.plumber
+		.pipe do $.coffeeify
+		.pipe $.rename "exam.js"
+		.pipe $.gulp.dest "dist/plain/"
 
-gulp.task 'build', ->
-	gulp.src 'sources/exam.coffee'
-		.pipe do plumber
-		.pipe coffee bare: true
-		.pipe gulp.dest 'dist/'
-		.pipe gulp.dest 'test/'
-		.pipe do size
-		.pipe do uglify
-		.pipe rename 'exam.min.js'
-		.pipe gulp.dest 'dist/'
-		.pipe do size
-		.pipe do browserSync.stream
+$.gulp.task "build:server", ->
+	$.gulp.src "src/**/*.coffee"
+		.pipe do $.plumber
+		.pipe $.coffee bare: on
+		.pipe $.gulp.dest "dist/module/"
 
-gulp.task 'watch', ->
-	watch 'sources/**/*.coffee', ->
-		gulp.start 'build'
+$.gulp.task "build", ["build:browser", "build:server"]
 
-gulp.task 'default', ['server', 'watch', 'build']
+$.gulp.task "test", ->
+	$.gulp.src "test-src/**/*.coffee"
+		.pipe do $.plumber
+		.pipe $.coffee bare: on
+		.pipe $.gulp.dest "test/"
+
+$.gulp.task "watch", ->
+	$.gulp.watch "src/**/*.coffee", ["build"]
+	$.gulp.watch "test-src/**/*.coffee", ["test"]
+
+$.gulp.task "default", ["build", "test", "watch"]

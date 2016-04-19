@@ -1,4 +1,4 @@
-class Exam
+module.exports = class Exam
 
 	constructor: (examObject) ->
 		if typeof examObject is 'string' then @examObject = do examObject.toLowerCase
@@ -30,5 +30,3 @@ class Exam
 	any: (callback) ->
 		do callback.bind @
 		@
-
-exam = (e) -> new Exam e

@@ -1,6 +1,6 @@
-var Exam, exam;
+var Exam;
 
-Exam = (function() {
+module.exports = Exam = (function() {
   function Exam(examObject) {
     if (typeof examObject === 'string') {
       this.examObject = examObject.toLowerCase();
@@ -67,7 +67,3 @@ Exam = (function() {
   return Exam;
 
 })();
-
-exam = function(e) {
-  return new Exam(e);
-};

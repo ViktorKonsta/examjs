@@ -4,7 +4,7 @@
   "description": "Examin your blog content for bad words ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,14 @@
     "url": "https://github.com/ViktorKonsta/examjs/issues"
   },
   "homepage": "https://github.com/ViktorKonsta/examjs#readme",
-  "dependencies": {
+  "devDependencies": {
+    "auto-require": "^2.0.1",
     "browser-sync": "^2.8.2",
+    "chai": "^3.5.0",
     "coffee-script": "^1.9.3",
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.3.1",
+    "gulp-coffeeify": "^0.1.8",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-size": "^1.2.3",
