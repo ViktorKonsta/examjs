@@ -5,26 +5,28 @@ module.exports = class Exam
 		else @examObject = do examObject.textContent.toLowerCase
 
 	undetect: ->
-		detectedString = @detected.join ''
-		for filter in @filters when not detectedString.match filter
-			@undetected.push filter
+		foundString = @found.join ''
+		for filter in @filters when not foundString.match filter
+			@unfound.push filter
 		return
 
 	find: (filters) ->
-		@detected = []
-		@undetected = []
+		@found = []
+		@unfound = []
 		@filters = (do filter.toLowerCase for filter in filters)
 		for item in @filters when @examObject.match item 
-			@detected.push item
+			@found.push item
 		do @undetect
 		return @
 
 	yep: (callback) ->
-		do callback.bind @ if @detected.length > 0
+		if @found.length > 0
+			do callback.bind @
 		return @
 
 	nope: (callback) ->
-		do callback.bind @ if @undetected.length > 0
+		if @unfound.length > 0
+			do callback.bind @
 		return @
 
 	any: (callback) ->

@@ -7,11 +7,13 @@ assert = chai.assert;
 exam = require("../dist/module");
 
 describe("Exam.js", function() {
-  return it("Exam should be a function", function() {
-    assert.isFunction(exam);
-    return exam("My name is Viktor").find(["name"]).yep(function() {
-      console.log(this.detected);
-      return console.log(this.undetected);
+  it("Exam should be a function", function() {
+    return assert.isFunction(exam);
+  });
+  return it("Should Exam 'hello world' and find hello", function() {
+    return exam("hello world").find(["hello"]).yep(function() {
+      console.log(this.found);
+      return console.log(this.unfound);
     });
   });
 });

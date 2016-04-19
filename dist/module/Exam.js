@@ -10,21 +10,21 @@ module.exports = Exam = (function() {
   }
 
   Exam.prototype.undetect = function() {
-    var detectedString, filter, i, len, ref;
-    detectedString = this.detected.join('');
+    var filter, foundString, i, len, ref;
+    foundString = this.found.join('');
     ref = this.filters;
     for (i = 0, len = ref.length; i < len; i++) {
       filter = ref[i];
-      if (!detectedString.match(filter)) {
-        this.undetected.push(filter);
+      if (!foundString.match(filter)) {
+        this.unfound.push(filter);
       }
     }
   };
 
   Exam.prototype.find = function(filters) {
     var filter, i, item, len, ref;
-    this.detected = [];
-    this.undetected = [];
+    this.found = [];
+    this.unfound = [];
     this.filters = (function() {
       var i, len, results;
       results = [];
@@ -38,7 +38,7 @@ module.exports = Exam = (function() {
     for (i = 0, len = ref.length; i < len; i++) {
       item = ref[i];
       if (this.examObject.match(item)) {
-        this.detected.push(item);
+        this.found.push(item);
       }
     }
     this.undetect();
@@ -46,14 +46,14 @@ module.exports = Exam = (function() {
   };
 
   Exam.prototype.yep = function(callback) {
-    if (this.detected.length > 0) {
+    if (this.found.length > 0) {
       callback.bind(this)();
     }
     return this;
   };
 
   Exam.prototype.nope = function(callback) {
-    if (this.undetected.length > 0) {
+    if (this.unfound.length > 0) {
       callback.bind(this)();
     }
     return this;
