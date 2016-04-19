@@ -8,6 +8,10 @@ exam = require("../dist/module");
 
 describe("Exam.js", function() {
   return it("Exam should be a function", function() {
-    return assert.isFunction(exam);
+    assert.isFunction(exam);
+    return exam("My name is Viktor").find(["name"]).yep(function() {
+      console.log(this.detected);
+      return console.log(this.undetected);
+    });
   });
 });

@@ -70,12 +70,20 @@ module.exports = Exam = (function() {
 })();
 
 },{}],2:[function(require,module,exports){
-var Exam;
+var Exam, main;
 
 Exam = require('./Exam');
 
-module.exports = function(args) {
+main = function(args) {
   return new Exam(args);
 };
+
+if (typeof module !== "undefined" && module !== null) {
+  return module.exports = main;
+}
+
+if (typeof window !== "undefined" && window !== null) {
+  return window.exam = main;
+}
 
 },{"./Exam":1}]},{},[2]);

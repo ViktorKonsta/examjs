@@ -17,16 +17,16 @@ module.exports = class Exam
 		for item in @filters when @examObject.match item 
 			@detected.push item
 		do @undetect
-		@
+		return @
 
 	yep: (callback) ->
 		do callback.bind @ if @detected.length > 0
-		@
+		return @
 
 	nope: (callback) ->
 		do callback.bind @ if @undetected.length > 0
-		@
+		return @
 
 	any: (callback) ->
 		do callback.bind @
-		@
+		return @
