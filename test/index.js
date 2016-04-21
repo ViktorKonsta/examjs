@@ -15,7 +15,7 @@ describe("Exam.js", function() {
         return exam(sentence).exact(["our", "moon", "vill"], function(result) {
           assert.deepEqual(result.found[0], "our");
           assert.deepEqual(result.found[1], "moon");
-          assert.deepEqual(result.notfound[2], "vill");
+          assert.deepEqual(result.notfound[0], "vill");
           return console.log(result);
         });
       });

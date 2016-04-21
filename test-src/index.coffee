@@ -16,7 +16,7 @@ describe "Exam.js", ->
 					.exact ["our", "moon", "vill"], (result) ->
 						assert.deepEqual result.found[0], "our"
 						assert.deepEqual result.found[1], "moon"
-						assert.deepEqual result.notfound[2], "vill"
+						assert.deepEqual result.notfound[0], "vill"
 						console.log result
 
 		describe "atLeast()", ->

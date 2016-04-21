@@ -1,10 +1,11 @@
-{ isArray, isString, isPlainObject, isFunction } = require "lodash"
+{ isArray, isString, isPlainObject, isFunction, includes } = require "lodash"
 
 module.exports = class Exam
 
 	constructor: (examing) ->
 		if isString examing
 			@examing = examing.toLowerCase()
+			@examingArr = @examing.split " "
 		else
 			throw new Error "Examing target must be a String"
 
@@ -19,10 +20,14 @@ module.exports = class Exam
 
 		return
 
-	contains: (filter) ->
-		if @examing.match filter
-			return on
-		return no
+	different: (filter) ->
+		if @softMode
+			if @examing.match filter
+				return no
+		else
+			if includes @examingArr, filter
+				return no
+		return on
 
 	atLeast: (filters, callback) ->
 		@exact filters, callback, on
@@ -33,7 +38,7 @@ module.exports = class Exam
 		@filters = if isArray filters then filters else [filters]
 
 		for filter in @filters
-			if @contains filter
+			if not @different filter
 				@found.push filter
 
 		do @getNotFoundList
@@ -46,10 +51,12 @@ module.exports = class Exam
 			mode: if softMode then "soft" else "strict"
 
 		if @found.length > 0 and @notfound.length is 0
-			@result.yep = on
+			@result.only = {}
+			@result.only.yep = on
 
 		if @notfound.length > 0 and @found.length is 0
-			@result.nope = on
+			@result.only = {}
+			@result.only.nope = on
 
 		if callback
 			callback @result
