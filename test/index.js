@@ -40,7 +40,7 @@ describe("Exam.js", function() {
         return assert.deepEqual(result.mode, "soft");
       };
       it("atLeast (callback)", function() {
-        return exam(sentence).atLeast(searchArray, resultFunction);
+        return exam(sentence).atLeast(searchArray, resultFunction).atLeast(searchArray, resultFunction);
       });
       return it("atLeast (promise)", function() {
         return exam(sentence).atLeast(searchArray).then(resultFunction);

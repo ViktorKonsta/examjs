@@ -72,7 +72,6 @@ module.exports = Exam = (function() {
         };
       })(this));
     }
-    return this;
   };
 
   return Exam;

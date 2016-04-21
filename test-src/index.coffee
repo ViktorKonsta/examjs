@@ -48,6 +48,7 @@ describe "Exam.js", ->
 
 				exam(sentence)
 					.atLeast searchArray, resultFunction
+					.atLeast searchArray, resultFunction
 
 			it "atLeast (promise)", ->
 

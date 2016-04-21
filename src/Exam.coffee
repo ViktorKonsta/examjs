@@ -58,5 +58,3 @@ module.exports = class Exam
 		if Promise?
 			return new Promise (resolve, reject) =>
 				resolve @result
-
-		return @
