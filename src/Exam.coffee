@@ -10,25 +10,35 @@ module.exports = class Exam
 			@unfound.push filter
 		return
 
-	find: (filters) ->
+	_find: (callback) ->
 		@found = []
 		@unfound = []
-		@filters = (do filter.toLowerCase for filter in filters)
-		for item in @filters when @examObject.match item 
-			@found.push item
+		do callback
 		do @undetect
 		return @
 
+	find: (filters) ->
+		@filters = (do filter.toLowerCase for filter in filters)
+		@_find =>
+			for item in @filters when @examObject.match item 
+				@found.push item
+
+	strictFind: (filters) ->
+		@filters = (do filter.toLowerCase for filter in filters)
+		@_find =>
+			for item in @filters when @examObject.match new RegExp "#{item}\\b", 'gi' 
+				@found.push item		
+
 	yep: (callback) ->
 		if @found.length > 0
-			do callback.bind @
+			callback found: @found, unfound: @unfound, filters: @filters
 		return @
 
 	nope: (callback) ->
 		if @unfound.length > 0
-			do callback.bind @
+			callback found: @found, unfound: @unfound, filters: @filters
 		return @
 
 	any: (callback) ->
-		do callback.bind @
+		callback found: @found, unfound: @unfound, filters: @filters
 		return @

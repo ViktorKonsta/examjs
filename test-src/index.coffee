@@ -14,37 +14,50 @@ describe "Exam.js", ->
 
 		exam "hello world"
 			.find ["hello"]
-			.yep ->
-				assert.deepEqual @found[0], "hello"
+			.yep (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual found[0], "hello"
 
 	it "Should Exam 'visit my site' and not find 'shit'", ->
 
 		exam "visit my site"
 			.find ["shit"]
-			.nope ->
-				assert.deepEqual @unfound[0], "shit"
+			.nope (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual unfound[0], "shit"
 
 	it "Should Exam 'My life is here' and find 'life' and not find 'lol'", ->
 
 		exam "My life is here"
 			.find ["life", "lol"]
-			.any ->
-				assert.deepEqual @found[0], "life"
-				assert.deepEqual @unfound[0], "lol"
+			.any (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual found[0], "life"
+				assert.deepEqual unfound[0], "lol"
 
 	it "Should Exam 'My name is Viktor, I am 21.' and find different words, so make first - find 'name' and second - not find 'lol'", ->
 
 		exam "My name is Viktor, I am 21."
 			.find ["name"]
-			.yep ->
-				assert.deepEqual @found[0], "name"
+			.yep (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual found[0], "name"
 			.find ["lol"]
-			.nope ->
-				assert.deepEqual @unfound[0], "lol"
+			.nope (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual unfound[0], "lol"
 
 	it "Should Exam 'Yo, what's up' try to find 'yo' and this.filter should be equal to 'yo'", ->
 
 		exam "Yo, what's up"
 			.find ["yo"]
-			.any ->
-				assert.deepEqual @filters[0], "yo"
+			.any (result) ->
+				{ found, unfound, filters } = result
+				assert.deepEqual filters[0], "yo"
+
+	it "strictly find", ->
+
+		exam "My name is Viktor"
+			.strictFind ["na"]
+			.any (result) ->
+				{ found, unfound, filters } = result

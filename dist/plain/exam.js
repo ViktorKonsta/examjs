@@ -22,10 +22,16 @@ module.exports = Exam = (function() {
     }
   };
 
-  Exam.prototype.find = function(filters) {
-    var filter, i, item, len, ref;
+  Exam.prototype._find = function(callback) {
     this.found = [];
     this.unfound = [];
+    callback();
+    this.undetect();
+    return this;
+  };
+
+  Exam.prototype.find = function(filters) {
+    var filter;
     this.filters = (function() {
       var i, len, results;
       results = [];
@@ -35,33 +41,77 @@ module.exports = Exam = (function() {
       }
       return results;
     })();
-    ref = this.filters;
-    for (i = 0, len = ref.length; i < len; i++) {
-      item = ref[i];
-      if (this.examObject.match(item)) {
-        this.found.push(item);
+    return this._find((function(_this) {
+      return function() {
+        var i, item, len, ref, results;
+        ref = _this.filters;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          item = ref[i];
+          if (_this.examObject.match(item)) {
+            results.push(_this.found.push(item));
+          }
+        }
+        return results;
+      };
+    })(this));
+  };
+
+  Exam.prototype.strictFind = function(filters) {
+    var filter;
+    this.filters = (function() {
+      var i, len, results;
+      results = [];
+      for (i = 0, len = filters.length; i < len; i++) {
+        filter = filters[i];
+        results.push(filter.toLowerCase());
       }
-    }
-    this.undetect();
-    return this;
+      return results;
+    })();
+    return this._find((function(_this) {
+      return function() {
+        var i, item, len, ref, results;
+        ref = _this.filters;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          item = ref[i];
+          if (_this.examObject.match(new RegExp(item + "\\b", 'gi'))) {
+            results.push(_this.found.push(item));
+          }
+        }
+        return results;
+      };
+    })(this));
   };
 
   Exam.prototype.yep = function(callback) {
     if (this.found.length > 0) {
-      callback.bind(this)();
+      callback({
+        found: this.found,
+        unfound: this.unfound,
+        filters: this.filters
+      });
     }
     return this;
   };
 
   Exam.prototype.nope = function(callback) {
     if (this.unfound.length > 0) {
-      callback.bind(this)();
+      callback({
+        found: this.found,
+        unfound: this.unfound,
+        filters: this.filters
+      });
     }
     return this;
   };
 
   Exam.prototype.any = function(callback) {
-    callback.bind(this)();
+    callback({
+      found: this.found,
+      unfound: this.unfound,
+      filters: this.filters
+    });
     return this;
   };
 
