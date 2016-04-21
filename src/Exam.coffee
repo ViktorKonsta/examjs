@@ -1,44 +1,59 @@
+{ isArray, isString, isPlainObject, isFunction } = require "lodash"
+
 module.exports = class Exam
 
-	constructor: (examObject) ->
-		if typeof examObject is 'string' then @examObject = do examObject.toLowerCase
-		else @examObject = do examObject.textContent.toLowerCase
+	constructor: (examing) ->
+		if isString examing
+			@examing = examing.toLowerCase()
+		else
+			throw new Error "Examing target must be a String"
 
-	undetect: ->
+	getNotFoundList: ->
+		@notfound = []
+
 		foundString = @found.join ''
-		for filter in @filters when not foundString.match filter
-			@unfound.push filter
+
+		for filter in @filters
+			if not foundString.match filter
+				@notfound.push filter
+
 		return
 
-	_find: (callback) ->
+	contains: (filter) ->
+		if @examing.match filter
+			return on
+		return no
+
+	atLeast: (filters, callback) ->
+		@exact filters, callback, on
+
+	exact: (filters, callback, softMode) ->
 		@found = []
-		@unfound = []
-		do callback
-		do @undetect
-		return @
+		@softMode = softMode or no
+		@filters = if isArray filters then filters else [filters]
 
-	find: (filters) ->
-		@filters = (do filter.toLowerCase for filter in filters)
-		@_find =>
-			for item in @filters when @examObject.match item 
-				@found.push item
+		for filter in @filters
+			if @contains filter
+				@found.push filter
 
-	strictFind: (filters) ->
-		@filters = (do filter.toLowerCase for filter in filters)
-		@_find =>
-			for item in @filters when @examObject.match new RegExp "#{item}\\b", 'gi' 
-				@found.push item		
+		do @getNotFoundList
 
-	yep: (callback) ->
-		if @found.length > 0
-			callback found: @found, unfound: @unfound, filters: @filters
-		return @
+		@result =
+			found: @found
+			notfound: @notfound
+			filters: @filters
+			examing: @examing
+			mode: if softMode then "soft" else "strict"
 
-	nope: (callback) ->
-		if @unfound.length > 0
-			callback found: @found, unfound: @unfound, filters: @filters
-		return @
+		if @found.length > 0 and @notfound.length is 0
+			@result.yep = on
 
-	any: (callback) ->
-		callback found: @found, unfound: @unfound, filters: @filters
-		return @
+		if @notfound.length > 0 and @found.length is 0
+			@result.nope = on
+
+		if callback
+			callback @result
+			return @
+
+		return new Promise (resolve, reject) ->
+			resolve @result

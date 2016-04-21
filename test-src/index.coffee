@@ -1,66 +1,30 @@
-
 chai = require "chai"
 { assert } = chai
 
 exam = require "../dist/module"
 
+sentence = "In our village, folks say God crumbles up the old moon into stars."
+
 describe "Exam.js", ->
 
-	it "Exam should be a function", ->
+	describe sentence, ->
 
-		assert.isFunction exam
+		describe "exact()", ->
 
-	it "Should Exam 'hello world' and find 'hello'", ->
+			it "Should find 'our', 'moon' amd not find 'vill' as it equals as part only", ->
+				exam(sentence)
+					.exact ["our", "moon", "vill"], (result) ->
+						assert.deepEqual result.found[0], "our"
+						assert.deepEqual result.found[1], "moon"
+						assert.deepEqual result.notfound[2], "vill"
+						console.log result
 
-		exam "hello world"
-			.find ["hello"]
-			.yep (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual found[0], "hello"
+		describe "atLeast()", ->
 
-	it "Should Exam 'visit my site' and not find 'shit'", ->
-
-		exam "visit my site"
-			.find ["shit"]
-			.nope (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual unfound[0], "shit"
-
-	it "Should Exam 'My life is here' and find 'life' and not find 'lol'", ->
-
-		exam "My life is here"
-			.find ["life", "lol"]
-			.any (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual found[0], "life"
-				assert.deepEqual unfound[0], "lol"
-
-	it "Should Exam 'My name is Viktor, I am 21.' and find different words, so make first - find 'name' and second - not find 'lol'", ->
-
-		exam "My name is Viktor, I am 21."
-			.find ["name"]
-			.yep (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual found[0], "name"
-			.find ["lol"]
-			.nope (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual unfound[0], "lol"
-
-	it "Should Exam 'Yo, what's up' try to find 'yo' and this.filter should be equal to 'yo'", ->
-
-		exam "Yo, what's up"
-			.find ["yo"]
-			.any (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual filters[0], "yo"
-
-	it "Should Exam 'My name is Viktor' and strictly not find 'na', 'm', 'vik'", ->
-
-		exam "My name is Viktor"
-			.strictFind ["na", 'm', 'vik']
-			.any (result) ->
-				{ found, unfound, filters } = result
-				assert.deepEqual unfound[0], 'na'
-				assert.deepEqual unfound[1], 'm'
-				assert.deepEqual unfound[2], 'vik'
+			it "Should find 'our', 'moon' amd 'vill'", ->
+				exam(sentence)
+					.atLeast ["our", "moon", "vill"], (result) ->
+						assert.deepEqual result.found[0], "our"
+						assert.deepEqual result.found[1], "moon"
+						assert.deepEqual result.found[2], "vill"
+						console.log result
