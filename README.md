@@ -58,7 +58,7 @@ exam("How about that, huh?")
 	.strictFind(["about"])
 	.yep( result => {
 		// word 'about' is fully out there
-		console.log(this.found)
+		console.log(result.found)
 	})
 ```
 
