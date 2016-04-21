@@ -51,9 +51,9 @@ module.exports = class Exam
 			@result.only = {}
 			@result.only.nope = on
 
-		if callback
+		if callback?
 			callback @result
 			return @
 
-		return new Promise (resolve, reject) ->
+		return new Promise (resolve, reject) =>
 			resolve @result

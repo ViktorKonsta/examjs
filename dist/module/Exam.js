@@ -61,13 +61,15 @@ module.exports = Exam = (function() {
       this.result.only = {};
       this.result.only.nope = true;
     }
-    if (callback) {
+    if (callback != null) {
       callback(this.result);
       return this;
     }
-    return new Promise(function(resolve, reject) {
-      return resolve(this.result);
-    });
+    return new Promise((function(_this) {
+      return function(resolve, reject) {
+        return resolve(_this.result);
+      };
+    })(this));
   };
 
   return Exam;
