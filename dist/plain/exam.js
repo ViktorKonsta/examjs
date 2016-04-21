@@ -16088,8 +16088,8 @@ module.exports = Exam = (function() {
     }
     this.getNotFoundList();
     this.result = {
-      found: this.found,
-      notfound: this.notfound,
+      found: this.found.length > 0 ? this.found : null,
+      notfound: this.notfound.length > 0 ? this.notfound : null,
       filters: this.filters,
       examing: this.examing,
       mode: softMode ? "soft" : "strict"

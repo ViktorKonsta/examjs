@@ -44,8 +44,8 @@ module.exports = class Exam
 		do @getNotFoundList
 
 		@result =
-			found: @found
-			notfound: @notfound
+			found: if @found.length > 0 then @found else null
+			notfound: if @notfound.length > 0 then @notfound else null
 			filters: @filters
 			examing: @examing
 			mode: if softMode then "soft" else "strict"
