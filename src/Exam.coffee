@@ -10,17 +10,6 @@ module.exports = class Exam
 		else
 			throw new Error "Examing target must be a String"
 
-	getNotFoundList: ->
-		@notfound = []
-
-		foundString = @found.join ''
-
-		for filter in @filters
-			if not foundString.match filter
-				@notfound.push filter
-
-		return
-
 	different: (filter) ->
 		if @softMode
 			if @examing.match filter
@@ -35,14 +24,17 @@ module.exports = class Exam
 
 	exact: (filters, callback, softMode) ->
 		@found = []
+		@notfound = []
+
 		@softMode = softMode or no
 		@filters = if isArray filters then filters else [filters]
 
 		for filter in @filters
+
 			if not @different filter
 				@found.push filter
-
-		do @getNotFoundList
+			else
+				@notfound.push filter
 
 		@result =
 			found: if @found.length > 0 then @found else null

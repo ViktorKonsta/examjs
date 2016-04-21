@@ -14,19 +14,6 @@ module.exports = Exam = (function() {
     }
   }
 
-  Exam.prototype.getNotFoundList = function() {
-    var filter, foundString, i, len, ref;
-    this.notfound = [];
-    foundString = this.found.join('');
-    ref = this.filters;
-    for (i = 0, len = ref.length; i < len; i++) {
-      filter = ref[i];
-      if (!foundString.match(filter)) {
-        this.notfound.push(filter);
-      }
-    }
-  };
-
   Exam.prototype.different = function(filter) {
     if (this.softMode) {
       if (this.examing.match(filter)) {
@@ -47,6 +34,7 @@ module.exports = Exam = (function() {
   Exam.prototype.exact = function(filters, callback, softMode) {
     var filter, i, len, ref;
     this.found = [];
+    this.notfound = [];
     this.softMode = softMode || false;
     this.filters = isArray(filters) ? filters : [filters];
     ref = this.filters;
@@ -54,9 +42,10 @@ module.exports = Exam = (function() {
       filter = ref[i];
       if (!this.different(filter)) {
         this.found.push(filter);
+      } else {
+        this.notfound.push(filter);
       }
     }
-    this.getNotFoundList();
     this.result = {
       found: this.found.length > 0 ? this.found : null,
       notfound: this.notfound.length > 0 ? this.notfound : null,
