@@ -65,11 +65,14 @@ module.exports = Exam = (function() {
       callback(this.result);
       return this;
     }
-    return new Promise((function(_this) {
-      return function(resolve, reject) {
-        return resolve(_this.result);
-      };
-    })(this));
+    if (typeof Promise !== "undefined" && Promise !== null) {
+      return new Promise((function(_this) {
+        return function(resolve, reject) {
+          return resolve(_this.result);
+        };
+      })(this));
+    }
+    return this;
   };
 
   return Exam;

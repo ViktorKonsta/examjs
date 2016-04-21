@@ -55,5 +55,8 @@ module.exports = class Exam
 			callback @result
 			return @
 
-		return new Promise (resolve, reject) =>
-			resolve @result
+		if Promise?
+			return new Promise (resolve, reject) =>
+				resolve @result
+
+		return @
