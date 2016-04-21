@@ -6,6 +6,9 @@ $.gulp.task "build:browser", ->
 		.pipe do $.coffeeify
 		.pipe $.rename "exam.js"
 		.pipe $.gulp.dest "dist/plain/"
+		.pipe do $.uglify
+		.pipe $.rename "exam.min.js"
+		.pipe $.gulp.dest "dist/plain/"
 
 $.gulp.task "build:server", ->
 	$.gulp.src "src/**/*.coffee"
