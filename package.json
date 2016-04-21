@@ -1,6 +1,6 @@
 {
   "name": "examjs",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "You can use this library for examing something for something",
   "main": "dist/module/index.js",
   "scripts": {
