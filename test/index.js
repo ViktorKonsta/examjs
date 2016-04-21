@@ -50,10 +50,13 @@ describe("Exam.js", function() {
       return assert.deepEqual(filters[0], "yo");
     });
   });
-  return it("strictly find", function() {
-    return exam("My name is Viktor").strictFind(["na"]).any(function(result) {
+  return it("Should Exam 'My name is Viktor' and strictly not find 'na', 'm', 'vik'", function() {
+    return exam("My name is Viktor").strictFind(["na", 'm', 'vik']).any(function(result) {
       var filters, found, unfound;
-      return found = result.found, unfound = result.unfound, filters = result.filters, result;
+      found = result.found, unfound = result.unfound, filters = result.filters;
+      assert.deepEqual(unfound[0], 'na');
+      assert.deepEqual(unfound[1], 'm');
+      return assert.deepEqual(unfound[2], 'vik');
     });
   });
 });

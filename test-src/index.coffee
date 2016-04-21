@@ -55,9 +55,12 @@ describe "Exam.js", ->
 				{ found, unfound, filters } = result
 				assert.deepEqual filters[0], "yo"
 
-	it "strictly find", ->
+	it "Should Exam 'My name is Viktor' and strictly not find 'na', 'm', 'vik'", ->
 
 		exam "My name is Viktor"
-			.strictFind ["na"]
+			.strictFind ["na", 'm', 'vik']
 			.any (result) ->
 				{ found, unfound, filters } = result
+				assert.deepEqual unfound[0], 'na'
+				assert.deepEqual unfound[1], 'm'
+				assert.deepEqual unfound[2], 'vik'
