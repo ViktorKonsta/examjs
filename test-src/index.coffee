@@ -3,7 +3,7 @@ chai = require "chai"
 
 exam = require "../dist/module"
 
-sentence = "In our village, folks say God crumbles up the old moon into stars. Перевод недоступен."
+sentence = "In our village, folks say God crumbles up the old moon into stars. Перевод недоступен... Really?"
 
 describe "Exam.js", ->
 
@@ -55,3 +55,12 @@ describe "Exam.js", ->
 				exam(sentence)
 					.atLeast searchArray
 					.then resultFunction
+
+		describe "Should return a result of '?' and '...' searching", ->
+
+			it "atLeast (promise)", ->
+
+				exam("a... you? me! so. boring, bring me a coffee??")
+					.exact ["...", "!", ".", ",", "?"]
+					.then (result) ->
+						assert.deepEqual result.decoded[result.decoded.length - 1], "??"

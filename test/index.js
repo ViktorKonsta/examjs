@@ -6,7 +6,7 @@ assert = chai.assert;
 
 exam = require("../dist/module");
 
-sentence = "In our village, folks say God crumbles up the old moon into stars. Перевод недоступен.";
+sentence = "In our village, folks say God crumbles up the old moon into stars. Перевод недоступен... Really?";
 
 describe("Exam.js", function() {
   return describe(sentence, function() {
@@ -27,7 +27,7 @@ describe("Exam.js", function() {
         return exam(sentence).exact(searchArray).then(resultFunction);
       });
     });
-    return describe("Should find 'our', 'moon', 'vill' and 'перев'", function() {
+    describe("Should find 'our', 'moon', 'vill' and 'перев'", function() {
       var resultFunction, searchArray;
       searchArray = ["our", "moon", "vill", "перев"];
       resultFunction = function(result) {
@@ -44,6 +44,13 @@ describe("Exam.js", function() {
       });
       return it("atLeast (promise)", function() {
         return exam(sentence).atLeast(searchArray).then(resultFunction);
+      });
+    });
+    return describe("Should return a result of '?' and '...' searching", function() {
+      return it("atLeast (promise)", function() {
+        return exam("a... you? me! so. boring, bring me a coffee??").exact(["...", "!", ".", ",", "?"]).then(function(result) {
+          return assert.deepEqual(result.decoded[result.decoded.length - 1], "??");
+        });
       });
     });
   });
