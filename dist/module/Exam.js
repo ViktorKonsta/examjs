@@ -1,10 +1,12 @@
-var Exam, includes, isArray, isFunction, isPlainObject, isString, ref;
+var Exam, includes, isArray;
 
-ref = require("lodash"), isArray = ref.isArray, isString = ref.isString, isPlainObject = ref.isPlainObject, isFunction = ref.isFunction, includes = ref.includes;
+isArray = require('lodash.isarray');
+
+includes = require('lodash.includes');
 
 module.exports = Exam = (function() {
   function Exam(examing) {
-    if (isString(examing)) {
+    if (typeof examing === 'string') {
       this.examing = examing.toLowerCase();
       this.examingArr = this.examing.split(" ");
     } else {
@@ -13,12 +15,12 @@ module.exports = Exam = (function() {
   }
 
   Exam.prototype.getNotFoundList = function() {
-    var filter, foundString, i, len, ref1;
+    var filter, foundString, i, len, ref;
     this.notfound = [];
     foundString = this.found.join('');
-    ref1 = this.filters;
-    for (i = 0, len = ref1.length; i < len; i++) {
-      filter = ref1[i];
+    ref = this.filters;
+    for (i = 0, len = ref.length; i < len; i++) {
+      filter = ref[i];
       if (!foundString.match(filter)) {
         this.notfound.push(filter);
       }
@@ -43,13 +45,13 @@ module.exports = Exam = (function() {
   };
 
   Exam.prototype.exact = function(filters, callback, softMode) {
-    var filter, i, len, ref1;
+    var filter, i, len, ref;
     this.found = [];
     this.softMode = softMode || false;
     this.filters = isArray(filters) ? filters : [filters];
-    ref1 = this.filters;
-    for (i = 0, len = ref1.length; i < len; i++) {
-      filter = ref1[i];
+    ref = this.filters;
+    for (i = 0, len = ref.length; i < len; i++) {
+      filter = ref[i];
       if (!this.different(filter)) {
         this.found.push(filter);
       }

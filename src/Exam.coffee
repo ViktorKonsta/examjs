@@ -1,9 +1,10 @@
-{ isArray, isString, isPlainObject, isFunction, includes } = require "lodash"
+isArray = require 'lodash.isarray'
+includes = require 'lodash.includes'
 
 module.exports = class Exam
 
 	constructor: (examing) ->
-		if isString examing
+		if typeof examing is 'string'
 			@examing = examing.toLowerCase()
 			@examingArr = @examing.split " "
 		else
